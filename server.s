@@ -22,7 +22,7 @@ _start:
     #listen
     mov rax, 50
     mov rdi, rbx
-    mov rsi, 5
+    mov rsi, 0
     syscall
 
 accept_loop:
@@ -54,13 +54,12 @@ child_process:
     lea rsi, [buffer]
     mov rdx, 1024          #doesn't matter atm
     syscall
-
+    
+    #jmp level9
     # Check if GET or POST
-    mov rsi, buffer
-    mov al, [rsi]
-    cmp al, 'G'
+    cmp byte ptr [buffer], 'G'
     je level9
-    cmp al, 'P'         # Check if the request starts with 'P' (POST)
+    cmp byte ptr [buffer], 'P'
     je level10
 
 
@@ -190,12 +189,26 @@ convert_to_int:
 continue_here:
     mov r14, rax
 
-#write
+    #write
     mov rax, 1
     mov rdi, 3
-    lea rsi, [buffer + 182]
-    mov rdx, r14
-    syscall
+    # Check the character at buffer + 183
+    movzx rcx, byte ptr [buffer + 182]  # Load the byte at buffer + 183 into rcx
+    cmp cl, 10                # Compare cl with 10 (newline character '\n')
+    je adjust_for_newline     # If it is a newline, adjust the pointer
+
+    # If not a newline, use buffer + 182
+    lea rsi, [buffer + 182]   # Set source pointer to buffer + 182
+    jmp prepare_write         # Skip to writing
+
+adjust_for_newline:
+    # If it is a newline, use buffer + 183
+    lea rsi, [buffer + 183]   # Set source pointer to buffer + 183
+
+prepare_write:
+    # Set the length of data to write from r14 and perform the syscall
+    mov rdx, r14              # Length of data to write from content-length
+    syscall                   # Perform the write
 
     #close
     mov rax, 3
