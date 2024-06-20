@@ -14,8 +14,7 @@ def run_initial_command(process):
         line = process.stdout.readline()
         output.append(line)
         if 'ciphertext (hex): ' in line:  # Assume the initial output always contains this line
-            break  # Stop after reading the first set of ciphertext (you might adjust this based on actual needs)
-
+            break  # Stop after reading the first set of ciphertext
 
 def run_command_with_input(process, input_data):
     process.stdin.write(input_data.decode('utf-8') + '\n')
