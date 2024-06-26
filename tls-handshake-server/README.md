@@ -4,6 +4,8 @@ This program simulates a simplified Transport Layer Security (TLS) handshake pro
 
 ### Features
 
-# Diffie-Hellman Key Exchange: Implements the Diffie-Hellman (DH) algorithm to securely exchange cryptographic keys over a public channel.
-# AES-128 Encrypted Communication: Utilizes AES-128 encryption to secure communication after key exchange.
-# Digital Signatures: Uses a self-signed root certificate to sign and verify user certificates, ensuring the authenticity and integrity of the communication.
+Diffie-Hellman Key Exchange: Implements the Diffie-Hellman (DH) algorithm to securely exchange cryptographic keys over a public channel.
+
+AES-128 Encrypted Communication: Utilizes AES-128 encryption to secure communication after key exchange.
+
+Digital Signatures: Uses a self-signed root certificate to sign and verify user certificates, ensuring the authenticity and integrity of the communication.
