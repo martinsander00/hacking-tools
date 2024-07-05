@@ -8,28 +8,37 @@
 #include <vector>    // For storing threads
 
 void handle_client(int client_sockfd) {
-   
     char buffer[256];
     ssize_t bytes_received;
-    
-    while (true) {
+
+    while (1) {
         memset(buffer, 0, sizeof(buffer));
-        bytes_received = recv(client_sockfd, buffer, sizeof(buffer) -1, 0);
+        bytes_received = recv(client_sockfd, buffer, sizeof(buffer) - 1, 0);
 
-    
-        buffer[bytes_received] = '\0';
-        printf("Received this from client: %s", buffer);
-
-        if (strcmp(buffer, "exit\n") == 0) {
-            printf("Client disconnected.");
+        if (bytes_received <= 0) {
+            if (bytes_received == 0) {
+                printf("Client disconnected.\n");
+            } else {
+                perror("recv error");
+            }
             break;
-                
+        }
+
+        buffer[bytes_received] = '\0';
+        printf("Received from client: %s", buffer);
+
+        // Remove newline character if present
+        while (bytes_received > 0 && (buffer[bytes_received - 1] == '\n' || buffer[bytes_received -1] == '\r')) {
+            buffer[--bytes_received] = '\0';
+        }
+        if (strcmp(buffer, "exit") == 0 || strcmp(buffer, "quit") == 0) {
+            printf("Client requested to exit.\n");
+            break;
         }
     }
-    // Close the client socket
+
     close(client_sockfd);
 }
-
 
 int main() {
     int sockfd = socket(AF_INET, SOCK_STREAM, 0);
