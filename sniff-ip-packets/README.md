@@ -10,7 +10,7 @@ This Python script uses the Scapy library to perform network packet sniffing and
 ## Requirements
 - Python 3.x
 - Scapy library
-- Run redirect_traffic.py before running sniff.py to have traffic incoming to your IP address 
+- Run redirect_traffic.py before sniff.py to redirect incoming traffic to your IP address. Modify sniff.py to specifically target and sniff packets from the IP addresses that you are interested in monitoring.
 
 To install Scapy, run:
 ```bash
