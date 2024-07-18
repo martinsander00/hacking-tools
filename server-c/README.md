@@ -5,7 +5,6 @@ This C++ program implements a simple TCP server that handles multiple clients us
 ## Requirements
 
 - GCC (GNU Compiler Collection)
-- Linux operating system
 
 ## Compilation
 
